@@ -161,6 +161,13 @@ const CORE_FEATURES = [
     defaultEnabled: false,
   },
   {
+    id: "filter-value-picker-search",
+    name: "Search Filter Variables & Table Records",
+    description:
+      "Adds searchable selection to Variable and Table Record value dropdowns in table-widget filters. Searches long, virtualized option lists and uses Tulip's original selection controls. Experimental: enable after testing.",
+    defaultEnabled: false,
+  },
+  {
     id: "query-list-search",
     name: "Searchable Table Queries",
     description:
