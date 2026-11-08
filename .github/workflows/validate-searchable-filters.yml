@@ -1,0 +1,29 @@
+name: Validate searchable filter extension
+on:
+  push:
+    branches:
+      - main
+      - feature/search-filter-variable-record-values
+  pull_request:
+
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: JavaScript syntax
+        run: |
+          node --check toggles/filter-value-picker-search.js
+          node --check features.js
+      - name: Verify extension registration
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const assert = require('node:assert/strict');
+          const manifest = JSON.parse(fs.readFileSync('manifest.json', 'utf8'));
+          const scripts = manifest.content_scripts.flatMap(entry => entry.js || []);
+          assert.equal(manifest.manifest_version, 3);
+          assert(scripts.includes('toggles/filter-value-picker-search.js'));
+          assert(fs.readFileSync('features.js', 'utf8').includes('id: "filter-value-picker-search"'));
+          console.log('Searchable filter-value feature registered.');
+          NODE
