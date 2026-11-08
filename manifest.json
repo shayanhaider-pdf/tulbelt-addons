@@ -1,17 +1,25 @@
 {
   "manifest_version": 3,
-  "name": "Tulbelt",
-  "version": "1.1.0",
+  "name": "Tulbelt Add-ons",
+  "version": "1.1.1",
   "description": "Quality-of-life toggles for tulip.co.",
-  "permissions": ["declarativeNetRequestWithHostAccess", "storage", "webNavigation"],
-  "host_permissions": ["*://*.tulip.co/*"],
+  "permissions": [
+    "declarativeNetRequestWithHostAccess",
+    "storage",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "*://*.tulip.co/*"
+  ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
   "content_scripts": [
     {
-      "matches": ["*://*.tulip.co/*"],
+      "matches": [
+        "*://*.tulip.co/*"
+      ],
       "js": [
         "toggles/lib.js",
         "toggles/tulbelt-page.js",
@@ -32,6 +40,7 @@
         "toggles/expression-editor-fuzzy.js",
         "toggles/collapse-tables-tile.js",
         "toggles/action-editor-frequent.js",
+        "toggles/filter-value-picker-search.js",
         "toggles/query-list-search.js",
         "toggles/history-search.js",
         "toggles/submitted-pending-approvals.js",
@@ -48,19 +57,31 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["*://*.tulip.co/*"],
-      "js": ["toggles/context-menu-copy-cut.js", "toggles/snap-to-grid.js"],
+      "matches": [
+        "*://*.tulip.co/*"
+      ],
+      "js": [
+        "toggles/context-menu-copy-cut.js",
+        "toggles/snap-to-grid.js"
+      ],
       "run_at": "document_idle",
       "all_frames": true
     },
     {
-      "matches": ["*://*.tulip.co/*"],
-      "js": ["toggles/expression-editor-fuzzy-main.js", "toggles/filters-builder-main.js"],
+      "matches": [
+        "*://*.tulip.co/*"
+      ],
+      "js": [
+        "toggles/expression-editor-fuzzy-main.js",
+        "toggles/filters-builder-main.js"
+      ],
       "run_at": "document_idle",
       "world": "MAIN"
     },
     {
-      "matches": ["*://*.tulip.co/*"],
+      "matches": [
+        "*://*.tulip.co/*"
+      ],
       "js": [
         "toggles/app-list-date-columns-main.js",
         "toggles/submitted-pending-approvals-main.js",
