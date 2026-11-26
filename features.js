@@ -154,6 +154,12 @@ const CORE_FEATURES = [
     defaultEnabled: true,
   },
   {
+    id: "trigger-dependency-watches",
+    name: "Inspect Trigger Dependencies",
+    description: "Inspect one trigger, try test values and pin its watches in a matching Web Player session.",
+    defaultEnabled: false,
+  },
+  {
     id: "trigger-line-copy",
     name: "Copy Individual Trigger Lines",
     description: "Copy one IF condition or THEN action between compatible trigger rows in the same app version. Review the draft before saving.",

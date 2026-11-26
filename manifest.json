@@ -51,6 +51,8 @@
         "toggles/data-queries.js",
         "toggles/trigger-value-full-text.js",
         "toggles/trigger-line-copy.js",
+        "toggles/trigger-watch-model.js",
+        "toggles/trigger-watches.js",
         "toggles/flatten-top-menu.js",
         "toggles/paste-trigger-anywhere.js",
         "toggles/dev-probe.js"
@@ -76,6 +78,8 @@
         "toggles/editor-model-main.js",
         "toggles/snapshot-inventory-main.js",
         "toggles/trigger-line-copy-main.js",
+        "toggles/trigger-watch-model.js",
+        "toggles/trigger-watch-main.js",
         "toggles/expression-editor-fuzzy-main.js",
         "toggles/filters-builder-main.js"
       ],
