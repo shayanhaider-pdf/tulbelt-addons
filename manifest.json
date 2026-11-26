@@ -72,6 +72,8 @@
         "*://*.tulip.co/*"
       ],
       "js": [
+        "toggles/editor-model-main.js",
+        "toggles/snapshot-inventory-main.js",
         "toggles/expression-editor-fuzzy-main.js",
         "toggles/filters-builder-main.js"
       ],
