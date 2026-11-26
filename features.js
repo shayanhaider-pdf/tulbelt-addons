@@ -45,9 +45,9 @@ const CORE_FEATURES = [
   },
   {
     id: "auto-snapshot",
-    name: "Auto-Snapshot Every 15m",
+    name: "Automatic Snapshots",
     description:
-      "Track active editing time per app and automatically create a snapshot every 15 minutes of activity.",
+      "Create a snapshot after the selected amount of active editing. Include a custom note and any available structural changes.",
     defaultEnabled: false,
   },
   {

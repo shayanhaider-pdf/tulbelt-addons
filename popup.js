@@ -107,6 +107,33 @@ function bindInfoIcon(icon, checkbox, description) {
   checkbox.addEventListener("blur", hideTooltip);
 }
 
+function snapshotSettings() {
+  const area = document.createElement("div");
+  area.className = "snapshot-settings";
+  const interval = document.createElement("select");
+  for (const value of [15, 30, 60, 120]) {
+    interval.add(new Option(value < 60 ? value + " minutes" : value / 60 + (value === 60 ? " hour" : " hours"), value));
+  }
+  const note = document.createElement("textarea");
+  note.rows = 2;
+  note.maxLength = 500;
+  for (const [text, control] of [["Active editing interval", interval], ["Snapshot note (optional)", note]]) {
+    const label = document.createElement("label");
+    label.append(text, control);
+    area.append(label);
+    control.disabled = true;
+  }
+  chrome.storage.local.get(["snapshotMinutes", "snapshotNote"]).then(values => {
+    interval.value = [30, 60, 120].includes(values.snapshotMinutes) ? values.snapshotMinutes : 15;
+    note.value = values.snapshotNote || "";
+    interval.disabled = false;
+    note.disabled = false;
+  });
+  interval.addEventListener("change", () => chrome.storage.local.set({ snapshotMinutes: Number(interval.value) }));
+  note.addEventListener("input", () => chrome.storage.local.set({ snapshotNote: note.value }));
+  return area;
+}
+
 function createFeatureNode(feature, enabled) {
   const node = featureTemplate.content.firstElementChild.cloneNode(true);
   node.querySelector(".feature-name").textContent = feature.name;
@@ -117,6 +144,7 @@ function createFeatureNode(feature, enabled) {
   bindInfoIcon(node.querySelector(".feature-info"), cb, feature.description);
   cb.checked = enabled;
   cb.addEventListener("change", () => setToggle(feature.id, cb.checked));
+  if (feature.id === "auto-snapshot") node.append(snapshotSettings());
   return node;
 }
 
