@@ -50,6 +50,7 @@
         "toggles/data-queries-model.js",
         "toggles/data-queries.js",
         "toggles/trigger-value-full-text.js",
+        "toggles/trigger-line-copy.js",
         "toggles/flatten-top-menu.js",
         "toggles/paste-trigger-anywhere.js",
         "toggles/dev-probe.js"
@@ -74,6 +75,7 @@
       "js": [
         "toggles/editor-model-main.js",
         "toggles/snapshot-inventory-main.js",
+        "toggles/trigger-line-copy-main.js",
         "toggles/expression-editor-fuzzy-main.js",
         "toggles/filters-builder-main.js"
       ],

@@ -154,6 +154,12 @@ const CORE_FEATURES = [
     defaultEnabled: true,
   },
   {
+    id: "trigger-line-copy",
+    name: "Copy Individual Trigger Lines",
+    description: "Copy one IF condition or THEN action between compatible trigger rows in the same app version. Review the draft before saving.",
+    defaultEnabled: false,
+  },
+  {
     id: "visible-canvas-grid",
     name: "Show Canvas Grid",
     description: "Show dotted lines every 10 px on the editor canvas. Widget snapping has its own switch.",
