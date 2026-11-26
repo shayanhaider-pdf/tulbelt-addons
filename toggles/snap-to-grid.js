@@ -322,6 +322,55 @@
     before = null;
   }
 
+  // Put the dotted guides in the same coordinate space as widgets so the
+  // editor's own pan and zoom transform both. Only the top script owns them.
+  const gridLayers = new Map();
+  let gridSweep = null;
+  function removeLayer(canvas, layer) {
+    layer.remove();
+    canvas.removeAttribute("data-tulbelt-grid-static");
+    gridLayers.delete(canvas);
+  }
+  function refreshGrid() {
+    const canvases = new Set();
+    if (pathMatches()) {
+      for (const doc of documentsToScan()) {
+        const canvas = doc.querySelector("#cssCanvas");
+        if (canvas) canvases.add(canvas);
+      }
+    }
+    for (const [canvas, layer] of gridLayers) {
+      if (!canvases.has(canvas) || !layer.isConnected) removeLayer(canvas, layer);
+    }
+    for (const canvas of canvases) {
+      if (gridLayers.has(canvas)) continue;
+      const doc = canvas.ownerDocument;
+      const layer = doc.createElement("div");
+      layer.setAttribute("aria-hidden", "true");
+      layer.className = "tulbelt-canvas-grid";
+      if (doc.defaultView.getComputedStyle(canvas).position === "static") canvas.setAttribute("data-tulbelt-grid-static", "");
+      const style = doc.createElement("style");
+      style.textContent = '[data-tulbelt-grid-static] { position: relative; }';
+      layer.append(style);
+      const dot = "radial-gradient(circle at 0.6px 0.6px, rgba(46,91,119,.54) .55px, transparent .9px)";
+      layer.style.cssText = "position:absolute;inset:0;z-index:1000;pointer-events:none;user-select:none;" +
+        "background-image:" + dot + "," + dot + ";background-size:2px " + GRID + "px," + GRID + "px 2px";
+      canvas.append(layer);
+      gridLayers.set(canvas, layer);
+    }
+  }
+  function showGrid(show) {
+    if (window !== window.top) return;
+    if (show && gridSweep === null) {
+      refreshGrid();
+      gridSweep = setInterval(refreshGrid, 600);
+    } else if (!show && gridSweep !== null) {
+      clearInterval(gridSweep);
+      gridSweep = null;
+      for (const [canvas, layer] of gridLayers) removeLayer(canvas, layer);
+    }
+  }
+
   // ---------- toggle ----------
   async function syncFromStorage() {
     let stored = {};
@@ -331,6 +380,7 @@
         stored = raw[STORAGE_KEY];
       }
     } catch (_) {}
+    showGrid(stored["visible-canvas-grid"] === true);
     const next = stored[FEATURE_ID] === true;
     if (next === enabled) return;
     enabled = next;

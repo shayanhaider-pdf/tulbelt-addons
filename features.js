@@ -154,6 +154,12 @@ const CORE_FEATURES = [
     defaultEnabled: true,
   },
   {
+    id: "visible-canvas-grid",
+    name: "Show Canvas Grid",
+    description: "Show dotted lines every 10 px on the editor canvas. Widget snapping has its own switch.",
+    defaultEnabled: false,
+  },
+  {
     id: "snap-to-grid",
     name: "Snap Widgets to 10px Grid",
     description:
