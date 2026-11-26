@@ -1,0 +1,5 @@
+Enable Inspect Trigger Dependencies and choose the small inspect button beside a trigger. The panel lists recognized bindings, each condition and the configured actions. If the editor does not expose the selected definition, use the native Copy trigger icon and paste into the panel. The panel identifies the trigger it actually loaded.
+
+Try a value accepts numbers, booleans, null or text. Conditions with supported comparisons show a hypothetical branch preview. Unrecognized operators and unavailable inputs remain undetermined. A record explicitly reported as unloaded is shown separately from a field containing an empty value. Blank, 0 and false are distinct.
+
+Pin watches for Web Player transfers the definition through extension session storage. The tenant, workspace, app and version must match a mounted Player context. Only explicitly available, identified runtime maps are read. A run of a published version cannot reuse a development version's profile. The installed desktop Player does not host this Chrome extension. Watches are temporary and do not modify the app. Server-side execution and connector outcomes require their own runtime evidence.

@@ -95,3 +95,30 @@ chrome.webNavigation.onHistoryStateUpdated.addListener(onSpaNavigation, TABLE_NA
 // Cross-document Back/Forward (e.g. from the sorted full-load entry back to the
 // un-sorted SPA entry) only surfaces here, not in onHistoryStateUpdated.
 chrome.webNavigation.onCommitted.addListener(skipSortDuplicate, TABLE_NAV_FILTER);
+
+// Share the selected configuration between the editor and its matching web
+// Player tabs for this browser session. Live and hypothetical values stay in-tab.
+chrome.runtime.onMessage.addListener((message, sender, reply) => {
+  if (!["tulbelt-watch-pin", "tulbelt-watch-get", "tulbelt-watch-clear"].includes(message?.type)) return;
+  const handle = async () => {
+    const url = new URL(sender.url);
+    const ctx = message.ctx;
+    if (sender.frameId !== 0 || !url.hostname.endsWith(".tulip.co") ||
+        !ctx || ![ctx.app, ctx.version].every(x => typeof x === "string" && x.length > 0) ||
+        typeof ctx.workspace !== "string" || !(await getToggles())["trigger-dependency-watches"]) return null;
+    const key = "watch:" + JSON.stringify([url.origin, ctx.workspace, ctx.app, ctx.version]);
+    if (message.type === "tulbelt-watch-pin") {
+      const route = /^(?:\/w\/([^/]+))?\/apps\/([^/]+)\/versions\/([^/]+)/.exec(url.pathname);
+      if (!route || (route[1] || "") !== ctx.workspace || route[2] !== ctx.app ||
+          (![ctx.version, "dev", "development"].includes(route[3])) ||
+          !Array.isArray(message.profile?.refs) || !Array.isArray(message.profile?.clauses)) return false;
+      await chrome.storage.session.set({ [key]: message.profile });
+      return true;
+    }
+    if (!/(?:^|\/)player(?:\/|$)/i.test(url.pathname)) return null;
+    if (message.type === "tulbelt-watch-clear") { await chrome.storage.session.remove(key); return true; }
+    return (await chrome.storage.session.get(key))[key] || null;
+  };
+  handle().then(reply, () => reply(null));
+  return true;
+});
